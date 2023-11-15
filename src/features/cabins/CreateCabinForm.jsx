@@ -25,9 +25,10 @@ function CreateCabinForm() {
   });
 
   function onSubmit(data) {
-    mutate(data);
+    mutate({ ...data, image: data.image[0] });
   }
 
+  // eslint-disable-next-line
   function onError(error) {
     // console.log(error);
   }
