@@ -38,4 +38,8 @@
 - 远程状态管理: React Query
 - UI 状态管理: Context API
 - 表单管理: React Hook Form
-- 其它: React icons / React hot toast / Recharts / date-fns / Supabase
+- 图标: React icons 
+- 提示: React hot toast
+- 图表: Recharts 
+- 日期: date-fns
+- 后端: Supabase
