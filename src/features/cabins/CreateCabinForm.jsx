@@ -10,11 +10,7 @@ import FormRow from "../../ui/FormRow";
 import { useCreateCabin } from "./hooks/useCreateCabin";
 import { useEditCabin } from "./hooks/useEditCabin";
 
-function CreateCabinForm({
-  cabinToEdit = {},
-  setShowForm,
-  onCloseModal = () => {},
-}) {
+function CreateCabinForm({ cabinToEdit = {}, setShowForm, onCloseModal }) {
   const { id: editId, ...editValues } = cabinToEdit;
   const isEditSession = Boolean(editId);
 
@@ -27,6 +23,7 @@ function CreateCabinForm({
   const { isEditing, editCabin } = useEditCabin();
 
   const isWorking = isCreating || isEditing;
+  const isModal = Boolean(onCloseModal);
 
   function onSubmit(data) {
     const image = typeof data.image === "string" ? data.image : data.image[0]; //URL or FileList
@@ -37,7 +34,7 @@ function CreateCabinForm({
         {
           onSuccess: () => {
             setShowForm(false);
-            onCloseModal();
+            onCloseModal?.();
           },
         }
       );
@@ -48,7 +45,7 @@ function CreateCabinForm({
           // eslint-disable-next-line
           onSuccess: (data) => {
             reset();
-            onCloseModal();
+            onCloseModal?.();
           },
         }
       );
@@ -60,7 +57,10 @@ function CreateCabinForm({
   }
 
   return (
-    <Form type="modal" onSubmit={handleSubmit(onSubmit, onError)}>
+    <Form
+      type={isModal ? "modal" : "regular"}
+      onSubmit={handleSubmit(onSubmit, onError)}
+    >
       <FormRow label="Cabin name" error={errors?.name?.message}>
         <Input
           type="text"
@@ -143,7 +143,11 @@ function CreateCabinForm({
 
       <FormRow>
         {/* type is an HTML attribute! */}
-        <Button $variation="secondary" type="reset" onClick={onCloseModal}>
+        <Button
+          $variation="secondary"
+          type="reset"
+          onClick={() => onCloseModal?.()}
+        >
           Cancel
         </Button>
         <Button disabled={isWorking}>

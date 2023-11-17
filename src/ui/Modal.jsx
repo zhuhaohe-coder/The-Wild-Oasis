@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { HiXMark } from "react-icons/hi2";
 import { createPortal } from "react-dom";
 import { cloneElement, createContext, useContext, useState } from "react";
+import { useOutSideClick } from "../hooks/useOutSideClick";
 
 const StyledModal = styled.div`
   position: fixed;
@@ -75,6 +76,7 @@ function Open({ children, opens: opensWindowName }) {
 
 function Window({ children, name }) {
   const { openName, close } = useContext(ModalContext);
+  const ref = useOutSideClick(close);
 
   if (openName !== name) return;
 
@@ -83,7 +85,7 @@ function Window({ children, name }) {
       <Button onClick={close}>
         <HiXMark />
       </Button>
-      <StyledModal>
+      <StyledModal ref={ref}>
         {cloneElement(children, { onCloseModal: close })}
       </StyledModal>
     </Overlay>,
