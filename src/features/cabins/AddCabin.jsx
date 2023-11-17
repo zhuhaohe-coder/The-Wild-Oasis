@@ -1,7 +1,6 @@
-import Button from "../ui/Button";
-import CreateCabinForm from "../features/cabins/CreateCabinForm";
-import Modal from "../ui/Modal";
-import CabinTable from "../features/cabins/CabinTable";
+import Button from "../../ui/Button";
+import CreateCabinForm from "./CreateCabinForm";
+import Modal from "../../ui/Modal";
 
 function AddCabin() {
   return (
@@ -12,15 +11,6 @@ function AddCabin() {
         </Modal.Open>
         <Modal.Window name="cabins-form">
           <CreateCabinForm />
-        </Modal.Window>
-      </Modal>
-
-      <Modal>
-        <Modal.Open opens="cabins-table">
-          <Button>Show table</Button>
-        </Modal.Open>
-        <Modal.Window name="cabins-table">
-          <CabinTable />
         </Modal.Window>
       </Modal>
     </>
