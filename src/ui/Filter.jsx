@@ -40,6 +40,10 @@ function Filter({ filterField, options }) {
   const currentFilter = searchParams.get(filterField) || options.at(0).value;
   function handleClick(value) {
     searchParams.set(filterField, value);
+    //过滤时分页需重置
+    if (searchParams.get("page")) {
+      searchParams.set("page", 1);
+    }
     setSearchParams(searchParams);
   }
 
