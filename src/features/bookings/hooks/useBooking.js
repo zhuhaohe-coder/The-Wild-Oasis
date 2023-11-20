@@ -9,7 +9,7 @@ export function useBooking() {
     isLoading,
     error,
   } = useQuery({
-    queryKey: ["booking"],
+    queryKey: ["booking", bookingId],
     queryFn: () => getBooking(bookingId),
     //默认请求失败会重新请求三次
     retry: false,

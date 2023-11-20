@@ -10,7 +10,7 @@ function BookingTable() {
   const { bookings, isLoading, count } = useBookings();
 
   if (isLoading) return <Spinner />;
-  if (!bookings.length) return <Empty resourceName="Bookings" />;
+  if (!bookings?.length) return <Empty resourceName="Bookings" />;
   /*
   //客户端过滤与排序
   const filterValue = searchParams.get("status") || "all";

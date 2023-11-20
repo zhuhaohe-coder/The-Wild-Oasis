@@ -6,8 +6,14 @@ import Heading from "../../ui/Heading";
 import ButtonGroup from "../../ui/ButtonGroup";
 import Button from "../../ui/Button";
 import ButtonText from "../../ui/ButtonText";
+import Spinner from "../../ui/Spinner";
+import Checkbox from "../../ui/Checkbox";
 
 import { useMoveBack } from "../../hooks/useMoveBack";
+import { useBooking } from "../bookings/hooks/useBooking";
+import { useEffect, useState } from "react";
+import { formatCurrency } from "../../utils/helpers";
+import { useCheckin } from "./hooks/useCheckin";
 
 const Box = styled.div`
   /* Box */
@@ -19,8 +25,12 @@ const Box = styled.div`
 
 function CheckinBooking() {
   const moveBack = useMoveBack();
+  const { booking, isLoading } = useBooking();
+  const [confirmed, setConfirmed] = useState(false);
+  const { checkin, isLoading: isCheckingIn } = useCheckin();
+  useEffect(() => setConfirmed(booking?.isPaid || false), [booking]);
 
-  const booking = {};
+  if (isLoading || isCheckingIn) return <Spinner />;
 
   const {
     id: bookingId,
@@ -31,7 +41,10 @@ function CheckinBooking() {
     numNights,
   } = booking;
 
-  function handleCheckin() {}
+  function handleCheckin() {
+    if (!confirmed) return;
+    checkin(bookingId);
+  }
 
   return (
     <>
@@ -42,9 +55,23 @@ function CheckinBooking() {
 
       <BookingDataBox booking={booking} />
 
+      <Box>
+        <Checkbox
+          checked={confirmed}
+          onChange={() => setConfirmed((confirmed) => !confirmed)}
+          id="confirm"
+          disabled={confirmed}
+        >
+          I confirm that {guests.fullName} has paid the total amount of&nbsp;
+          {formatCurrency(totalPrice)}
+        </Checkbox>
+      </Box>
+
       <ButtonGroup>
-        <Button onClick={handleCheckin}>Check in booking #{bookingId}</Button>
-        <Button variation="secondary" onClick={moveBack}>
+        <Button disabled={!confirmed || isCheckingIn} onClick={handleCheckin}>
+          Check in booking #{bookingId}
+        </Button>
+        <Button $variation="secondary" onClick={moveBack}>
           Back
         </Button>
       </ButtonGroup>
