@@ -5,6 +5,7 @@ import Row from "../../ui/Row";
 import { useTodayActivity } from "./hooks/useTodayActivity";
 import Spinner from "../../ui/Spinner";
 import TodayItem from "./TodayItem";
+import { useTranslation } from "react-i18next";
 
 const StyledToday = styled.div`
   /* Box */
@@ -41,11 +42,12 @@ const NoActivity = styled.p`
 
 function TodayActivity() {
   const { activities, isLoading } = useTodayActivity();
+  const { t } = useTranslation();
 
   return (
     <StyledToday>
       <Row type="horizontal">
-        <Heading as="h2">Today</Heading>
+        <Heading as="h2">{t("description.today")}</Heading>
       </Row>
       {isLoading ? (
         <Spinner />

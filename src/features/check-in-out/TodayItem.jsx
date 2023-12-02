@@ -4,6 +4,7 @@ import { Flag } from "../../ui/Flag";
 import Button from "../../ui/Button";
 import { Link } from "react-router-dom";
 import { useCheckout } from "./hooks/useCheckout";
+import { useTranslation } from "react-i18next";
 
 const StyledTodayItem = styled.li`
   display: grid;
@@ -24,19 +25,24 @@ const Guest = styled.div`
   font-weight: 500;
 `;
 function TodayItem({ activity }) {
+  const { t } = useTranslation();
   const { id, status, guests, numNights } = activity;
   const { checkout, isLoading: isCheckingOut } = useCheckout();
   return (
     <StyledTodayItem>
-      {status === "unconfirmed" && <Tag type="green">Arriving</Tag>}
-      {status === "checked-in" && <Tag type="blue">Departing</Tag>}
+      {status === "unconfirmed" && (
+        <Tag type="green">{t("description.arriving")}</Tag>
+      )}
+      {status === "checked-in" && (
+        <Tag type="blue">{t("description.departing")}</Tag>
+      )}
 
       <Flag src={guests.countryFlag} alt={`Flag of ${guests.country}`} />
       <Guest>{guests.fullName}</Guest>
       <div>{numNights} nights</div>
       {status === "unconfirmed" && (
         <Button as={Link} size="small" to={`/checkin/${id}`}>
-          Check in
+          {t("description.checkin")}
         </Button>
       )}
       {status === "checked-in" && (
@@ -45,7 +51,7 @@ function TodayItem({ activity }) {
           onClick={() => checkout(id)}
           disabled={isCheckingOut}
         >
-          Check out
+          {t("description.checkout")}
         </Button>
       )}
     </StyledTodayItem>

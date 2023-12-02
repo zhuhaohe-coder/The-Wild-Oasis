@@ -4,6 +4,7 @@ import ButtonIcon from "./ButtonIcon";
 import { HiOutlineUser } from "react-icons/hi2";
 import { useNavigate } from "react-router-dom";
 import DarkModeToggle from "./DarkModeToggle";
+import LanguageSwitcher from "./LanguageSwitcher";
 
 const StyledHeaderMenu = styled.ul`
   display: flex;
@@ -24,6 +25,9 @@ function HeaderMenu() {
       </li>
       <li>
         <Logout />
+      </li>
+      <li>
+        <LanguageSwitcher />
       </li>
     </StyledHeaderMenu>
   );

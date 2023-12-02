@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router-dom";
 import styled, { css } from "styled-components";
 
@@ -36,6 +37,7 @@ const FilterButton = styled.button`
 `;
 
 function Filter({ filterField, options }) {
+  const { t } = useTranslation();
   const [searchParams, setSearchParams] = useSearchParams();
   const currentFilter = searchParams.get(filterField) || options.at(0).value;
   function handleClick(value) {
@@ -56,7 +58,7 @@ function Filter({ filterField, options }) {
           $active={currentFilter === option.value}
           disabled={currentFilter === option.value}
         >
-          {option.label}
+          {t(`description.${option.label}`)}
         </FilterButton>
       ))}
     </StyledFilter>
